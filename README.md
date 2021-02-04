@@ -11,7 +11,7 @@ python manage.py createsuperuser
 
 ### Запуск сервера
 ```
-cd poll-app
+cd poll-app-main
 python manage.py runserver
 ```
 
