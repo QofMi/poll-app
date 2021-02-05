@@ -40,7 +40,7 @@ class Options(models.Model):
 
 class UserAnswer(models.Model):
     """ Модель заполненного опроса """
-    user_id = models.IntegerField(db_index=True, blank=True)
+    user_id = models.IntegerField(db_index=True)
     poll = models.ForeignKey('Poll', on_delete=models.CASCADE)
 
     def __str__(self):
