@@ -201,14 +201,16 @@ class AdminOptionsMixin:
         try:
             object = self.question_object.objects.get(id=question_id)
             serializer = self.option_serializer(data=request.data)
+            if object.question_type:
+                if serializer.is_valid(raise_exception=True):
+                    valid_data = serializer.validated_data
+                    valid_data['question'] = object
+                    new_option = self.option_object(**valid_data)
+                    new_option.save()
 
-            if serializer.is_valid(raise_exception=True):
-                valid_data = serializer.validated_data
-                valid_data['question'] = object
-                new_option = self.option_object(**valid_data)
-                new_option.save()
-
-                return Response(self.option_serializer(new_option).data)
+                    return Response(self.option_serializer(new_option).data)
+            else:
+                raise Exception('Invalid question type')
 
         except self.question_object.DoesNotExist:
             raise Http404
